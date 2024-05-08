@@ -48,23 +48,23 @@ BEGIN
         WHERE Nest_ID=New.Nest_ID
     ),
     Book_page = (
-        SELECT Book_page
-        FROM Bird_eggs
-        WHERE Nest_ID=New.Nest_ID),
+        SELECT b.Book_page
+        FROM Bird_nests b 
+        WHERE b.Nest_ID=New.Nest_ID),
     "Year" = (
         SELECT "Year"
-        FROM Bird_eggs
-        WHERE Nest_ID=New.Nest_ID),
+        FROM Bird_nests b
+        WHERE b.Nest_ID=New.Nest_ID),
     Site = (
         SELECT Site
-        FROM Bird_eggs
-        WHERE Nest_ID=New.Nest_ID)
+        FROM Bird_nests b
+        WHERE b.Nest_ID=New.Nest_ID)
     WHERE rowid=NEW.rowid;
 END;
 
 INSERT INTO Bird_eggs
     (Nest_ID, Length, Width)
-    VALUES ('14eabaage01', 12.36, 56.80);
+    VALUES ('14eabaage01', 12.32, 56.74);
 
   INSERT INTO Bird_eggs
     (Nest_ID, Length, Width)
@@ -72,7 +72,7 @@ INSERT INTO Bird_eggs
 
 --WORKED!!
 
-SELECT * FROM new_bird_egg WHERE Nest_ID = '14eabaage01';
+SELECT * FROM Bird_eggs WHERE Nest_ID = '14eabaage01';
 
 --Question 3: 
 
