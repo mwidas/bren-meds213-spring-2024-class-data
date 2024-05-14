@@ -6,10 +6,12 @@
 -- SQL is case insensitive
 
 -- open database.db in duckdb in terminal
-duckdb database.db
+duckdb database.db;
+
 
 -- select all columns from species table
 SELECT * FROM Species;
+
 
 -- show the first 10 rows
 .maxrows 10
@@ -34,7 +36,7 @@ SELECT COUNT(Scientific_name) FROM Species;
 SELECT DISTINCT Species FROM Bird_nests;
 
 -- can select which columns to return by naming them
-SELECT * FROM Species;
+SELECT * FROM Bird_eggs;
 SELECT  Code, Common_name FROM Species;
 SELECT Species FROM Bird_nests;
 SELECT DISTINCT Species FROM Bird_nests;

@@ -1,0 +1,100 @@
+---
+title: "dbplyr"
+---
+
+```{r}
+# load packages
+library(tidyverse)
+library(DBI)
+library(dplyr)
+library(duckdb)
+library(here)
+```
+
+# Connect to Database
+```{r}
+conn <- DBI::dbConnect(duckdb::duckdb(), dbdir = here("week3", "database.db"))
+```
+
+```{r}
+DBI::dbListTables(conn)
+```
+
+```{r}
+species <- tbl(conn, "Species")
+head(species)
+```
+
+# SQL Query
+
+```{r}
+# query that selects codes that start with a
+df <- dbGetQuery(conn, "SELECT * FROM Species WHERE Code LIKE 'a%' ")
+df
+```
+
+# Another way using {dbplyr}
+
+```{r}
+species |> 
+  filter(Relevance=="Study species") |> 
+  select(Code, Scientific_name) |> 
+  show_query()
+
+# Source SQL [?? x 2] = dplyr is a translator so can show what SQL code would result in the same result
+
+# try to delay using collect message
+species |> 
+  filter(Relevance=="Study species") |> 
+  select(Code, Scientific_name) |> 
+  collect()
+```
+
+
+```{r}
+# Group by relevance and count the number of species in each group
+# returns a list
+species_groups <- species |> 
+  group_by(Relevance) |> 
+  summarize(num_species = n()) |> 
+  arrange(-num_species) 
+
+# returns a data frame
+species_groups_df <- species_groups |> 
+  collect()
+
+# show query to return this in SQL
+species_groups |> 
+show_query()
+```
+
+# Mutating using {dbplyr}
+
+```{r}
+# we want to add an "X" in front of the codes and update the code column
+new_species_code <- species |> 
+  mutate(Code = paste0("X", Code)) |> 
+  # save results as data frame 
+  collect()
+```
+
+# You can do a join
+```{r}
+eggs_db <- tbl(conn, "Bird_eggs")
+nests_db <- tbl(conn, "Bird_nests")
+eggs_db
+nests_db
+```
+
+```{r}
+# use a left join to join the nest and the egg tables:
+left_join(eggs_db, nests_db, by = c("Nest_ID", "Year", "Site", "Book_page")) |> 
+  show_query()
+```
+
+# Close database
+
+```{r}
+DBI::dbDisconnect(conn, shutdown = TRUE)
+```
+

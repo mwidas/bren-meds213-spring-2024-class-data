@@ -1,0 +1,83 @@
+---
+title: "HW 6"
+author: "Melissa Widas"
+---
+
+```{r}
+# load packages
+library(tidyverse)
+library(DBI)
+library(dplyr)
+library(duckdb)
+library(here)
+```
+
+# Connect to Database
+```{r}
+conn <- DBI::dbConnect(duckdb::duckdb(), dbdir = here("week3", "database.db"))
+```
+
+```{r}
+DBI::dbListTables(conn)
+```
+
+```{r}
+egg_table <- tbl(conn, "Bird_eggs")
+head(egg_table)
+
+nest_table <- tbl(conn, "Bird_nests")
+head(nest_table)
+
+personnel_table <- tbl(conn, "Personnel")
+head(personnel_table)
+```
+
+```{r}
+# join egg_table with nest_table first
+joined_data <- egg_table %>%
+  left_join(nest_table, by = "Nest_ID") |> 
+  left_join(personnel_table, by = c("Observer" = "Abbreviation"))
+
+# dplyr code for query
+top_observer <- joined_data %>%
+  # roup by Name
+  group_by(Name) %>%
+  # sum up total eggs measured
+  summarize(total_eggs = count(Egg_num)) %>%
+  # arrange in descending order
+  arrange(desc(total_eggs)) |> 
+  # select top 3
+  head(3)
+
+# view top_observer
+top_observer
+
+```
+
+# Show Query
+```{r}
+# dplyr code for query
+top_observer <- joined_data %>%
+  # roup by Name
+  group_by(Name) %>%
+  # sum up total eggs measured
+  summarize(total_eggs = count(Egg_num)) %>%
+  # arrange in descending order
+  arrange(desc(total_eggs)) |> 
+  # select top 3
+  head(3) |>
+  # show SQL translation
+  show_query()
+```
+
+# SQL Output
+```{r}
+# close connection
+DBI::dbDisconnect(conn, shutdown = TRUE)
+```
+
+# Discussion
+
+If you used multiple R statements, did dbplyr create a temporary table, or did it manage to do everything in one query? Did it limit to the first three rows using an R expression or an SQL LIMIT clause?
+
+**Dbplyr managed to execute this query in one query. It limited the first 3 rows in a SQL Limit clause.**
