@@ -33,15 +33,16 @@ Q3. What would be the utility and information loss after implementing the anonym
 
 ```{r}
 library(sdcMicro)
+library(tidyverse)
 
-data <- read.csv("southpark-sdc.csv")
+data <- read_csv("week9/southpark-sdc.csv")
 ```
 
 ### Review Data Structure
 
 ```{r}
 #Read the CSV dataset into a data frame
-df <- read.csv("southpark-sdc.csv")
+df <- read.csv("week9/southpark-sdc.csv")
 
 #Show the list of variable names
 head(df)
@@ -52,6 +53,9 @@ str(df)
 
 ***Discussion: What variables can be considered direct identifiers? What variables are quasi or indirect identifiers?***
 
+direct: stu_id, name, ss, 
+quasi: d_o_b
+
 ## Data Prep - Converting variables
 
 As we can see, we will need to convert some of the variables first.
@@ -60,11 +64,11 @@ The variables *stu-id*, *SSN*, *name*, and *dob* will soon be removed from the d
 
 ```{r}
 fname = "southpark-sdc.csv"
-file <- read.csv(fname)
+file <- read.csv("week9/southpark-sdc.csv")
 file <- varToFactor(obj=file, var=c("zip","age", "sex","race","ethn", "snap", "income", "learn_dis","phys_dis"))
 
 #Convert to numeric math_sc and read_sc
-?
+file <- varToNumeric(obj=file, var=c("math_sc", "read_sc"))
 
 ```
 
@@ -81,18 +85,19 @@ To answer this question, we must first set up an ***SDC problem***. In other wor
 #Select categorical key variables - aka quasi-identifiers
 
 sdcInitial <- createSdcObj(dat=file,
-                       keyVars=c(?),
-                       numVars=c(?),
+                       keyVars=c("zip","age", "sex","race","ethn", "snap", "income", "learn_dis","phys_dis"),
+                       numVars=c("math_sc", "read_sc"),
                        weightVar=NULL,
                        hhId=NULL,
                        strataVar=NULL,
                        pramVars=NULL,
-                       excludeVars=c(?),
+                       excludeVars=c("stu_id", "name", "dob", "ssn"),
                        seed=0,
                        randomizeRecords=FALSE,
                        alpha=c(1))
 # Summary of object
-?
+sdcInitial
+summary(sdcInitial)
 ```
 
 **Discussion: What about the stu_id? Why are we keeping it?**
@@ -103,7 +108,7 @@ Check the results below and the number of observations that violate 2-5 anonymit
 
 ```{r}
 #The threshold depends on the size of the dataset and the access control (a conservative number for large surveys is 0.04)
-?
+sdcInitial@risk$global$risk
 ```
 
 Ouch! What does that score mean?
@@ -117,8 +122,7 @@ We can further inspect this issue before moving to the second question.
 #### Which observations/subjects have a higher risk of being re-identified?
 
 ```{r}
-?
-
+sdcInitial@risk$individual
 ```
 
 ### Q2. How can the risk of re-identification be significantly reduced?
@@ -150,15 +154,15 @@ sdcInitial <- groupAndRename(obj= sdcInitial, var= c("income"), before=c("10,000
 
 ```{r}
 #Frequencies of age before recording
-
+table(sdcInitial@manipKeyVars$age)
 ```
 
 ```{r}
 #Recode Age 
 #Top
-sdcInitial <- groupAndRename(obj= sdcInitial, var= c("age"), before=c(?), after=c(?))  
+sdcInitial <- groupAndRename(obj= sdcInitial, var= c("age"), before=c("11", "12", "13"), after=c("11+"))  
 #Bottom
-sdcInitial <- groupAndRename(obj= sdcInitial, var= c("age"), before=c("?"), after=c("?"))
+sdcInitial <- groupAndRename(obj= sdcInitial, var= c("age"), before=c("8", "9"), after=c("8-9"))
 ```
 
 #### Important Note: Undoing things
@@ -174,6 +178,7 @@ Let's see if those steps lowered the risk of re-identification of subjects.
 
 ```{r}
 #Check global re-id risk
+# went from 0.81 to 0.79
 sdcInitial@risk$global$risk
 
 #Additionally, we may print a K-anonymity violation comparison
@@ -189,7 +194,7 @@ Time for a more powerful technique. Let's use the k-anonymization function!
 
 ```{r}
 #Local suppression to obtain k-anonymity
-?
+print(sdcInitial, 'kAnon')
   
 #Setting the parameters that we aim for at least 5 observations sharing the same attributes in the dataset.
 #Alternatively, we could have set the order of importance for each keyvariables

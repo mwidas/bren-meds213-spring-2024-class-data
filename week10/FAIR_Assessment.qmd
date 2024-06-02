@@ -1,0 +1,128 @@
+---
+Author: "Melissa Widas"
+Title: "How Fair is Your Data Set"
+---
+
+# Week 9 - How FAIR is your data set?
+
+Using the FAIR Assessment tool, evaluate the FAIRness of the two following data sets:
+
+1. Ephemeral wetland macroinvertebrate communities of the Great Plains
+2. Insect functional traits on arable land, Finland 2020
+3. Which one would you prefer to reuse?
+
+Notes:
+Please add narrative justification to explain your choices done using the FAIR assessment tool
+There are several data sets in the first data deposit, assess all the files at once using the worst case/file for your evaluation, but discuss variability in your justification
+
+## Dataset 1
+Findable
+1. Does the dataset have any identifiers assigned?
+
+**This dataset has a unique identifier, but I will admit it is not a format I am personally familiar with.**
+
+2. Is the dataset identifier included in all metadata records/files describing the data?
+
+**No, the unique identifier does not appear in the linked .xml file.**
+
+3. How is the data described with metadata?
+
+**Brief title and description is provided but there is no information on the variables included in the datasets.**
+
+4. What type of repository or registry is the metadata record in?
+
+**Domain-specific repository called the Knowledge Network of Biocomplexity**
+
+5. How accessible is the data
+
+**Publicly accessible as the data does not have any qualifiers attached to it**
+
+6. Is the data available online without requiring specialized protocols or tools once access has been approved?
+
+**File download from online location. The files all download from the data repository with no mention of additional permissions needed**
+
+7. Will the metadata record be available even if the data are no longer available?
+
+**Unsure, there is no mention of the metadate living separately from the data**
+
+8. What (file) formats is the data available in?
+
+**In a structured, open standard, machine-readable format. The data is available in .txt, .xlxs, and .csv file formats **
+
+9. What best describes the types of vocabularies/ontologies/tagging schemas used to define the data elements?
+Data elements not described
+
+**No standards have been applied in the description of data elements, and there is not descriptions for the variables within the datasets.**
+
+10. How is the metadata linked to other data and metadata (to enhance context and clearly indicate relationships)?
+
+**There are no links to other metadata**
+
+11. Which of the following best describes the licence/usage rights attached to the data?
+
+**Standard machine-readable licence (e.g. Creative Commons).**
+
+12. How much provenance information has been captured to facilitate data reuse?
+
+**Partially recorded. The dataset does indicate that there were some environmental and community data are available for New Mexico, Texas, and Kansas that were not incorporated into analyses for the study associated with this dataset.**
+
+
+## Dataset 2
+Findable
+
+1. Does the dataset have any identifiers assigned?
+
+**Globally unique identifier, citable and persistent (e.g. DOI, PURL, ARK or Handle). A DOI is provided.**
+
+2. Is the dataset identifier included in all metadata records/files describing the data?
+
+**Yes, the DOI is present within the metadata .xml file.**
+
+3. How is the data described with metadata?
+
+**Comprehensively using a recognized formal machine-readable metadata schema. The data has well-described variables and definitions provided.**
+
+4. What type of repository or registry is the metadata record in?
+
+**Domain-specific repository called the Knowledge Network of Biocomplexity**
+
+Accessible
+5. How accessible is the data
+
+**Publicly accessible, there appear to be no barriers to downloading the data.**
+
+6. Is the data available online without requiring specialized protocols or tools once access has been approved?
+
+**File download from online location, and data is downloaded in .xlxs format**
+
+7. Will the metadata record be available even if the data are no longer available?
+
+**Unsure, there is no mention of the metadata living separately from the data**
+
+Interoperable
+8. What (file) formats is the data available in?
+
+**In a structured, open standard, machine-readable format which is a .xlxs file.**
+
+9. What best describes the types of vocabularies/ontologies/tagging schemas used to define the data elements?
+
+**Standardised vocabularies/ontologies/schemas without global identifiers. Data elements have definitions and descriptions for some of the variables. These all appear to be relatively domain-specific and often do not have linkage to where these values or formats were created.**
+
+10. How is the metadata linked to other data and metadata (to enhance context and clearly indicate relationships)?
+
+**There are no links to other metadata provided**
+
+Reusable
+11. Which of the following best describes the licence/usage rights attached to the data?
+
+**Standard machine-readable licence (e.g. Creative Commons)**
+
+12. How much provenance information has been captured to facilitate data reuse?
+
+**No provenance information is recorded**
+
+## Which One Is Preferred?
+
+**I would choose the second dataset Insect functional traits on arable land, Finland 2020. I think the main component that made this dataset stand out versus the first one in terms of FAIR was the description of the data present in the metadata. The variables are clearly defined and listed as well as some having additional industry references. This will create data that is more easily understood as well as easier to use in the long-run. Additionally, if the metadata were to be found without the data somehow the link to the DOI within the metadata would allow a user to find the data which is incrediby important as well. Furthermore the repository also included keywords which would allow someone searching for this dataset to more easily locate it.**
+
+

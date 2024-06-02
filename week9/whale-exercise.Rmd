@@ -24,23 +24,39 @@ Please complete this exercise in pairs or groups of three. Each group should dow
 #### Inspect the Dataset
 
 ```{r}
+library(tidyverse)
+library(sdcMicro)
 
+whale_data <- read.csv("week9/whale-sdc.csv")
+glimpse(whale_data)
 ```
 
 #### Q1. How many direct identifiers are present in this dataset? What are they?
 
-A:
+A: 4; lat + long, fishery_license, case_id (to keep iternally)
 
 #### **Q2. What attributes would you consider quasi-identifiers? Why?**
 
-A:
+A: county, origin, state
+
+Origin has an uneven distribution between categories.
+
+County and State are not direct identifiers but can be combined to determine locations.
 
 #### **Q3. What types of variables are they? Define them. (numeric, integer, factor or string)**
 
 Make sure to have them set correctly.
 
-```{r}
+lat - numeric
+long - numeric
+fishery license - numeric
+case_id - character
 
+```{r}
+whale_data <- varToFactor(obj=whale_data, var=c(""))
+
+#Convert to numeric math_sc and read_sc
+file <- varToNumeric(obj=file, var=c("math_sc", "read_sc"))
 ```
 
 #### ***4 Considering your answers to questions 1, 2 and 3 create a SDC problem.***
